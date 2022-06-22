@@ -231,9 +231,16 @@ std::unique_ptr<FoodVector> filter_food_vector
 	int total_size
 )
 {
-// TODO: implement this function, then delete the return statement below
-return nullptr;
+	// TODO: implement this function, then delete the return statement below
+	std::unique_ptr<FoodVector> filteredFoods(new FoodVector);
 
+	for ( auto & foods : source) {
+        if(foods->foodCalories() > 0 && foods->foodCalories() >= min_calories && foods->foodCalories() <= max_calories && filteredFoods->size() < total_size) {
+            filteredFoods->push_back(foods);
+        }
+    }
+	
+	return filteredFoods;
 }
 
 
@@ -248,8 +255,41 @@ std::unique_ptr<FoodVector> greedy_max_calories
 	double total_weight
 )
 {
-// TODO: implement this function, then delete the return statement below
-return nullptr;
+	
+	// TODO: implement this function, then delete the return statement below
+
+	std::unique_ptr<FoodVector> todo(new FoodVector(foods));
+	std::unique_ptr<FoodVector> result(new FoodVector);
+
+	int max;
+	int index;
+	double resultWeight = 0.0;
+
+	while(!todo->empty() && resultWeight < total_weight) {
+		max = 0;
+		index = 0;
+		
+
+		for(int i = 0; i < todo->size(); i++) {
+			//double calPerWeight = todo->at(i)->foodCalories() / todo->at(i)->weight();
+
+			if(max < todo->at(i)->weight()) {
+				index = i;
+				max = todo->at(i)->weight();
+			}
+		}
+
+		if(resultWeight + todo->at(index)->weight() <= total_weight) {
+			result->push_back(todo->at(index));
+			resultWeight += todo->at(index)->weight();
+		}
+
+		todo->erase(todo->begin() + index);
+
+
+	}
+
+	return result;
 }
 
 
@@ -264,6 +304,20 @@ std::unique_ptr<FoodVector> exhaustive_max_calories
 	double total_weight
 )
 {
+	// int64_t i=0;
+	// std::unique_ptr<FoodVector> best(new FoodVector);
+	// for ( auto & food : foods) {
+	// 	if(food->weight() <= total_weight) {
+	// 		if(best->empty() || food->foodCalories() > best->at(i)->foodCalories()) {
+	// 			*best = foods;
+	// 		}
+	// 	}
+	// 	i++;
+	// }
+
+	// return best;
+	
+
 // TODO: implement this function, then delete the return statement below
-return nullptr;
+//return nullptr;
 }
