@@ -231,7 +231,6 @@ std::unique_ptr<FoodVector> filter_food_vector
 	int total_size
 )
 {
-	// TODO: implement this function, then delete the return statement below
 	std::unique_ptr<FoodVector> filteredFoods(new FoodVector);
 
 	for ( auto & foods : source) {
@@ -255,41 +254,36 @@ std::unique_ptr<FoodVector> greedy_max_calories
 	double total_weight
 )
 {
-	
-	// TODO: implement this function, then delete the return statement below
-
-	std::unique_ptr<FoodVector> todo(new FoodVector(foods));
-	std::unique_ptr<FoodVector> result(new FoodVector);
-
-	int max;
-	int index;
-	double resultWeight = 0.0;
-
-	while(!todo->empty() && resultWeight < total_weight) {
-		max = 0;
-		index = 0;
-		
-
-		for(int i = 0; i < todo->size(); i++) {
-			//double calPerWeight = todo->at(i)->foodCalories() / todo->at(i)->weight();
-
-			if(max < todo->at(i)->weight()) {
-				index = i;
-				max = todo->at(i)->weight();
-			}
-		}
-
-		if(resultWeight + todo->at(index)->weight() <= total_weight) {
-			result->push_back(todo->at(index));
-			resultWeight += todo->at(index)->weight();
-		}
-
-		todo->erase(todo->begin() + index);
-
-
-	}
-
-	return result;
+    FoodVector todo = foods;
+    std::unique_ptr<FoodVector> result (new FoodVector);
+    int resultWeight = 0;
+    int index;
+    int counter;
+    
+    // Loops until all items have been accounted for
+    while (!todo.empty()) {
+        index = 0;
+        counter = 0;
+        // Creates food item to compare to
+        std::shared_ptr<FoodItem> q (new FoodItem(" ",100,0.001));
+  
+        for (auto& food : todo) {
+            // Get highest Cal/Weight Item
+            if (food->foodCalories()/food->weight() > q->foodCalories()/q->weight()) {
+                q = food;
+                index = counter;
+            }
+            counter++;
+        }
+        // Removes the highest cal/weight item from initial vector
+        todo.erase(todo.begin() + index);
+        // Checks if the total weight has been reached yet.
+        if (resultWeight + q->weight() <= total_weight) {
+            result->push_back(q);
+            resultWeight += q->weight();
+        }
+    }
+    return result;
 }
 
 
@@ -319,5 +313,5 @@ std::unique_ptr<FoodVector> exhaustive_max_calories
 	
 
 // TODO: implement this function, then delete the return statement below
-//return nullptr;
+return nullptr;
 }
