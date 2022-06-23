@@ -298,20 +298,36 @@ std::unique_ptr<FoodVector> exhaustive_max_calories
 	double total_weight
 )
 {
-	// int64_t i=0;
-	// std::unique_ptr<FoodVector> best(new FoodVector);
-	// for ( auto & food : foods) {
-	// 	if(food->weight() <= total_weight) {
-	// 		if(best->empty() || food->foodCalories() > best->at(i)->foodCalories()) {
-	// 			*best = foods;
-	// 		}
-	// 	}
-	// 	i++;
-	// }
-
-	// return best;
-	
-
-// TODO: implement this function, then delete the return statement below
-return nullptr;
+    double candidateWeight;
+    double candidateCalories;
+    double bestCalories;
+    double bestWeight;
+    
+    // 2^(size of foods)
+    double n = pow(2, foods.size());
+    
+    // Optimal vector for foods
+    std::unique_ptr<FoodVector> best (new FoodVector);
+   
+    for (int i = 0; i < n; i++) {
+        // Possible vector to compare with
+        std::unique_ptr<FoodVector> candidate (new FoodVector);
+        for (int j = 0; j < foods.size(); j++) {
+            if (((i >> j) & 1) == 1)
+                // Adds possible foods to candidate
+                candidate->push_back(foods[j]);
+        }
+        
+        // Returns the total weight and calories
+        sum_food_vector(*candidate, candidateWeight, candidateCalories);
+        sum_food_vector(*best, bestWeight, bestCalories);
+        
+        // If weight isn't exceeded and optimal calories
+        // give candidate foods to best
+        if (candidateWeight <= total_weight)
+            if (best->empty() || candidateCalories > bestCalories)
+                *best = *candidate;
+    }
+    
+    return best;
 }
