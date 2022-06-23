@@ -23,7 +23,7 @@ int main()
     auto small_foods = filter_food_vector(*filtered_foods, 1, 2000, n);
 
     Timer timer;
-    auto solution = greedy_max_calorie(*small_foods, 2000);
+    auto solution = greedy_max_calories(*small_foods, 2000);
     greedy << n << "," << timer.elapsed() << endl;
   }
   greedy.close();
@@ -38,7 +38,7 @@ int main()
     auto small_foods = filter_food_vector(*filtered_foods, 1, 2000, n);
 
     Timer timer;
-    auto solution = exhaustive_max_calorie(*small_foods, 2000);
+    auto solution = exhaustive_max_calories(*small_foods, 2000);
     exhaustive << n << "," << timer.elapsed() << endl;
   }
   exhaustive.close();
